@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "Actuator.h"
+using namespace std;
 
 
   // Création d'une instance de LED_RGB avec le pin GPIO 13 et une couleur rouge
@@ -15,9 +16,9 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Initialisation begin...");
   myLed=new LED_RGB(D7);
-  Serial.println("Etape 1..");
+  Serial.println("step 1..");
   myBuzzer=new Buzzer(D6, false);
-  Serial.println("Etape 2..");
+  Serial.println("step 2..");
   myDisplay= new SevenSegmentDisplay(D3, D5);
 
  
@@ -47,9 +48,6 @@ void loop() {
   // Afficher le nombre 5678
   myDisplay->displayNumber(5678);
   delay(2000);
-  
-  
-
-    Serial.println("Idle...");
+  Serial.println("End...");
 
 }

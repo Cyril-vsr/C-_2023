@@ -5,6 +5,10 @@
 #include <Arduino.h>
 #include <ChainableLED.h>
 #include "TM1637.h"
+#include <iostream>
+
+// Utilisation du namespace std
+using namespace std;
 
 // Définition de la classe abstraite Led
 class Actuator {
@@ -100,6 +104,7 @@ public:
     // Afficher le tableau sur l'afficheur
     tm1637.display(data);
   }
+
 };
 
 #endif

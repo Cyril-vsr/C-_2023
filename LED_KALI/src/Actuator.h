@@ -4,6 +4,7 @@
 // Inclusion des bibliothèques nécessaires
 #include <Arduino.h>
 #include <ChainableLED.h>
+#include "TM1637.h"
 
 // Définition de la classe abstraite Led
 class Actuator {
@@ -53,22 +54,52 @@ LED_RGB(int pin) : pin(pin), R(0), G(0), B(0), Led(pin, D8, 1) {
 // Définition de la classe pour le Buzzer
 class Buzzer : public Actuator {
 private:
-  const u_int8_t pin;
+  const int pin;
   boolean mode = false;
 public:
-Buzzer(uint pinvalue, int mode_B) : pin(pinvalue), mode(mode_B) {
-  while(mode==true){
-    digitalWrite(pin, HIGH);
-    delay(1000);
-  }
-  digitalWrite(pin, LOW);
-
+Buzzer(int pinvalue, int mode_B) : pin(pinvalue), mode(mode_B) {
+  pinMode(pin, OUTPUT); 
+  UpdateBuzzerState();
   }
   void SetMode(boolean NewMode)
 {
-  this->mode = NewMode;
+  mode = NewMode;
+  UpdateBuzzerState();
 }
+  private:
+  void UpdateBuzzerState() {
+    if (mode == true) {
+      digitalWrite(pin, HIGH);
+    } else {
+      digitalWrite(pin, LOW);
+    }
+  }
 };
 
+class SevenSegmentDisplay : public Actuator {
+private:
+  const int pinCLK;
+  const int pinDIO;
+  TM1637 tm1637;
+
+public:
+  SevenSegmentDisplay(int CLK, int DIO) : pinCLK(CLK), pinDIO(DIO), tm1637(CLK, DIO) {
+    tm1637.init();
+    tm1637.set(BRIGHT_TYPICAL);
+  }
+
+  void displayNumber(int number) {
+    // Convertir le nombre en tableau d'entiers
+   // Convertir le nombre en tableau d'entiers
+    int8_t data[] = {0, 0, 0, 0};
+    for (int i = 0; i < 4; ++i) {
+      data[3 - i] = number % 10;  // Correction de l'ordre des chiffres
+      number /= 10;
+    }
+
+    // Afficher le tableau sur l'afficheur
+    tm1637.display(data);
+  }
+};
 
 #endif

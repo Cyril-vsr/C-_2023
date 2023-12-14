@@ -5,7 +5,9 @@
 #include <Arduino.h>
 #include <ChainableLED.h>
 #include "TM1637.h"
-#include <iostream>
+#include <ostream>
+#include <vector>
+
 
 // Utilisation du namespace std
 using namespace std;
@@ -19,6 +21,7 @@ public:
  static int getNb() {
     return nb;
   }
+ 
 };
 int Actuator::nb = 0;
 
@@ -41,19 +44,33 @@ LED_RGB(int pin) : pin(pin), R(0), G(0), B(0), Led(pin, D8, 1) {
     B = colorB;
     Led.setColorRGB(0, colorR, colorG, colorB);
   }
-  int getPin() const {
-    return pin;
+  void operator=(const vector<int>& values) {
+    // Assurez-vous que le vecteur contient exactement 3 éléments
+    if (values.size() == 3) {
+      // Utilisez auto pour déballer les valeurs du vecteur
+      auto it = values.begin();
+      R = *it++;
+      G = *it++;
+      B = *it;
+
+
+      setRGB(R,G,B);
+    }
   }
-  void getR() {
-    printf("%d",R);
-  }
-  void getG() {
-    printf("%d",G);
-  }
-  void getB() {
-    printf("%d",B);
+
+  void println(Print& output) const {
+    output.print("LED_RGB - Pin: ");
+    output.print(pin);
+    output.print(", R: ");
+    output.print(R);
+    output.print(", G: ");
+    output.print(G);
+    output.print(", B: ");
+    output.println(B);
   }
 };
+
+
 
 // Définition de la classe pour le Buzzer
 class Buzzer : public Actuator {
@@ -78,7 +95,17 @@ Buzzer(int pinvalue, int mode_B) : pin(pinvalue), mode(mode_B) {
       digitalWrite(pin, LOW);
     }
   }
+  public:
+   void println(Print& output) const {
+    output.print("Buzzer - Pin: ");
+    output.print(pin);
+    output.print(", Mode: ");
+    output.println(mode);
+  }
 };
+
+
+
 
 class SevenSegmentDisplay : public Actuator {
 private:
@@ -94,7 +121,6 @@ public:
 
   void displayNumber(int number) {
     // Convertir le nombre en tableau d'entiers
-   // Convertir le nombre en tableau d'entiers
     int8_t data[] = {0, 0, 0, 0};
     for (int i = 0; i < 4; ++i) {
       data[3 - i] = number % 10;  // Correction de l'ordre des chiffres
@@ -104,7 +130,14 @@ public:
     // Afficher le tableau sur l'afficheur
     tm1637.display(data);
   }
+  void println(Print& output) const {
+    Serial.print(", PinDIO: ");
+    Serial.println(pinDIO);
+  }
 
 };
+
+
+
 
 #endif

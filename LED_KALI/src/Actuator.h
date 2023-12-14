@@ -20,43 +20,43 @@ int Actuator::nb = 0;
 // Définition de la classe pour la LED rouge
 class LED_RGB : public Actuator {
 private:
-  const int pin;
+  const u_int8_t pin;
   int R,G,B;
-  ChainableLED Led; // Déplacer l'objet Led ici
+  ChainableLED Led;
   
 
 public:
-LED_RGB(int pin, int R, int G, int B) : pin(pin), R(R), G(G), B(B), Led(pin, pin + 1, 1) {
-    Led.setColorRGB(0, R, G, B); // Utilisation de setColorRGB pour définir la couleur
+LED_RGB(int pin) : pin(pin), R(0), G(0), B(0), Led(pin, D8, 1) {
+  //Led.setColorRGB(0, 255, 0, 0);
   }
 
-  void setR(int newR) {
-    R = newR;
-    Led.setColorRGB(0, R, G, B); // Mettre à jour la couleur après la modification
+  void setRGB(int colorR, int colorG, int colorB) {
+    R = colorR;
+    G = colorG;
+    B = colorB;
+    Led.setColorRGB(0, colorR, colorG, colorB);
   }
-
-  void setG(int newG) {
-    G = newG;
-    Led.setColorRGB(0, R, G, B); // Mettre à jour la couleur après la modification
-  }
-
-  void setB(int newB) {
-    B = newB;
-    Led.setColorRGB(0, R, G, B); // Mettre à jour la couleur après la modification
-  }
-
   int getPin() const {
     return pin;
+  }
+  void getR() {
+    printf("%d",R);
+  }
+  void getG() {
+    printf("%d",G);
+  }
+  void getB() {
+    printf("%d",B);
   }
 };
 
 // Définition de la classe pour le Buzzer
 class Buzzer : public Actuator {
 private:
-  const int pin;
+  const u_int8_t pin;
   boolean mode = false;
 public:
-Buzzer(int pinvalue, int mode_B) : pin(pinvalue), mode(mode_B) {
+Buzzer(uint pinvalue, int mode_B) : pin(pinvalue), mode(mode_B) {
   while(mode==true){
     digitalWrite(pin, HIGH);
     delay(1000);

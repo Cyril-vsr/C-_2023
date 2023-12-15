@@ -8,7 +8,7 @@ using namespace std;
 LED_RGB *myLed=nullptr;
 Buzzer *myBuzzer=nullptr;
 SevenSegmentDisplay *myDisplay=nullptr;
-
+int sensorValue = 0;
 
 
 
@@ -22,13 +22,29 @@ void setup() {
   Serial.println("step 2..");
   myDisplay= new SevenSegmentDisplay(D3, D5);
 
- 
+}
+int Exceptionhandler(int temp) {
+      try {
+      if (temp >= 2) {
+        throw "Valeur de capteur invalide";
+      }
+      // Introduire un délai entre les lectures
+      delay(1000);
+      }catch (const char* error) {
+      return -1;  // Erreur détectée
+  }
+  return 0;  // Succès
 }
 
 void loop() {
-  Serial.println("begin..");
- //Allumer la LED pendant 1 seconde
 
+ // int result = Exceptionhandler(sensorValue);
+
+  // if (result == -1) {
+  //   Serial.println("Error...");
+  //   return;
+  // }
+  Serial.println("begin..");
   myLed->setRGB(0,255,0);
   delay(1000);
   myLed->setRGB(255,0,0);
@@ -57,5 +73,6 @@ void loop() {
   myDisplay->println(Serial);
 
   Serial.println("End...");
-
+  sensorValue++;
+ 
 }

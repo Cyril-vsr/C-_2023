@@ -10,6 +10,10 @@ DHT dht(D6,DHTTYPE);  //   DHT11
 string Temperature::name = "";
 float Temperature::temp = 0;
 
+string Humidity::name = "";
+float Humidity::hum = 0;
+
+//Classe pour le capteur Temperature :
 Temperature::Temperature(string nom){
     name = nom;
     temp = 0;  
@@ -43,11 +47,53 @@ void Temperature::printTemperature()
 {
     Serial.print("La valeur du capteur est : ");
     Serial.println(getTemp());
-    //Serial.println(dht.readHumidity());
     
 }
 
 void Temperature::initCom() 
+{
+    Wire.begin();
+    dht.begin();
+}
+
+//Classe pour le capteur Humidité :
+Humidity::Humidity(string nom){
+    name = nom;
+    hum = 0;  
+}
+Humidity::Humidity(){
+    name = "HumSens";
+    hum = 0;  
+}
+
+// Accessors :
+float Humidity::getHum ()
+{   
+    hum=dht.readHumidity();  
+    return hum;   
+}
+void Humidity::setHum(float h)
+{ 
+    hum = h;
+}
+string Humidity::getName()
+{
+    return name;
+}
+void Humidity::setName(string nom)
+{
+    name = nom;
+}
+
+// Methods :
+void Humidity::printHumidity()
+{
+    Serial.print("La valeur du capteur d'humidité est : ");
+    Serial.println(getHum());
+    
+}
+
+void Humidity::initCom() 
 {
     Wire.begin();
     dht.begin();

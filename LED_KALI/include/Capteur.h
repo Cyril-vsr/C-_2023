@@ -41,8 +41,6 @@ private:
 public :
     Temperature(string nom);
     Temperature();
-//Code à implémenter pour la com en i2c avec le sensor et affectation des valeurs lues dans temp :
-//    ----------
 
 // Accessors :
 float getTemp();
@@ -52,6 +50,30 @@ void setName(string nom);
 
 // Methods :
 void printTemperature();
+
+void initCom();
+
+};
+
+//Classe pour le capteur Humidité :
+class Humidity : public Capteur
+{
+private:
+    static string name;
+    static float hum;
+
+public :
+    Humidity(string nom);
+    Humidity();
+    
+// Accessors :
+float getHum();
+void setHum(float t);
+string getName();
+void setName(string nom);
+
+// Methods :
+void printHumidity();
 
 void initCom();
 

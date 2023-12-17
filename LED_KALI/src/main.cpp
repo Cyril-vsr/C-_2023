@@ -54,7 +54,7 @@ int Exceptionhandler(int temp)
 void updateColorBasedOnTemperature(float temperature)
 {
   // Convertir la température en une valeur de couleur
-  int colorValue = map(temperature, 19, 23, 0, 255); // Between 15 and 30 °C - 0 to 255 values
+  int colorValue = map(temperature, 15, 26, 255, 0); // Between 15 and 30 °C - 0 to 255 values
 
   // Ajuster la couleur de la LED RGB
   *myLed = {255 - colorValue, colorValue, 0};
@@ -62,7 +62,7 @@ void updateColorBasedOnTemperature(float temperature)
 
 void WarningTemperature_Humidity(float temperature, float humidity)
 {
-  if (temperature >= 30 or hum >= 100)
+  if (temperature >= 26 or hum >= 100)
   {
     myBuzzer->SetMode(true);
   }

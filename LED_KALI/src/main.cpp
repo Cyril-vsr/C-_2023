@@ -65,6 +65,7 @@ void WarningTemperature_Humidity(float temperature, float humidity)
   if (temperature >= 26 or hum >= 100)
   {
     myBuzzer->SetMode(true);
+    *myLed = {255,0,0};
   }
   else
   {

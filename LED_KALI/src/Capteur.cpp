@@ -1,102 +1,114 @@
 #include <DHT.h>
 #include <Arduino.h>
-using namespace std;
-#include <Capteur.h>
+#include <Capteur.h>  // Inclure le fichier d'en-tête pour la classe Capteur
 
+// Informations sur le créateur, la date de création et le projet
+// Créateur : Paul JAULHIAC
+// Date de création : 18/12/23@
+// Projet : C++ Project
+
+// Définition de la classe Capteur
 int Capteur::nbCapteur = 0;
-Capteur::Capteur(){ nbCapteur++; }
-Capteur::~Capteur(){ nbCapteur--; }
 
-DHT dht(D6,DHTTYPE);  //   DHT11
+// Constructeur de la classe Capteur
+Capteur::Capteur() {
+  nbCapteur++;
+}
 
-string Temperature::name = "";
+// Destructeur de la classe Capteur
+Capteur::~Capteur() {
+  nbCapteur--;
+}
+
+// Initialisation du capteur DHT
+DHT dht(D6, DHTTYPE);  // DHT11
+
+// Définition de la classe Temperature
+String Temperature::name = "";
 float Temperature::temp = 0;
 
-string Humidity::name = "";
+// Définition de la classe Humidity
+String Humidity::name = "";
 float Humidity::hum = 0;
 
-//Classe pour le capteur Temperature :
-Temperature::Temperature(string nom){
-    name = nom;
-    temp = 0;  
-}
-Temperature::Temperature(){
-    name = "tempSens";
-    temp = 0;  
+// Constructeur de la classe Temperature
+Temperature::Temperature(String nom) {
+  name = nom;
+  temp = 0;  
 }
 
-// Accessors :
-float Temperature::getTemp ()
-{   
-    temp=dht.readTemperature(false);  
-    return temp;   
-}
-void Temperature::setTemp(float t)
-{ 
-    temp = t;
-}
-string Temperature::getName()
-{
-    return name;
-}
-void Temperature::setName(string nom)
-{
-    name = nom;
+// Constructeur par défaut de la classe Temperature
+Temperature::Temperature() {
+  name = "tempSens";
+  temp = 0;  
 }
 
-// Methods :
-void Temperature::printTemperature()
-{
-    Serial.print("La valeur du capteur est : ");
-    Serial.println(getTemp());
-    
+// Accesseurs de la classe Temperature
+float Temperature::getTemp() {
+  temp = dht.readTemperature(false);
+  return temp;
 }
 
-void Temperature::initCom() 
-{
-    Wire.begin();
-    dht.begin();
+void Temperature::setTemp(float t) {
+  temp = t;
 }
 
-//Classe pour le capteur Humidité :
-Humidity::Humidity(string nom){
-    name = nom;
-    hum = 0;  
-}
-Humidity::Humidity(){
-    name = "HumSens";
-    hum = 0;  
+String Temperature::getName() {
+  return name;
 }
 
-// Accessors :
-float Humidity::getHum ()
-{   
-    hum=dht.readHumidity();  
-    return hum;   
-}
-void Humidity::setHum(float h)
-{ 
-    hum = h;
-}
-string Humidity::getName()
-{
-    return name;
-}
-void Humidity::setName(string nom)
-{
-    name = nom;
+void Temperature::setName(String nom) {
+  name = nom;
 }
 
-// Methods :
-void Humidity::printHumidity()
-{
-    Serial.print("La valeur du capteur d'humidité est : ");
-    Serial.println(getHum());
-    
+// Méthodes de la classe Temperature
+void Temperature::printTemperature() {
+  Serial.print("La valeur du capteur de température est : ");
+  Serial.println(getTemp());
 }
 
-void Humidity::initCom() 
-{
-    Wire.begin();
-    dht.begin();
+void Temperature::initCom() {
+  Wire.begin();
+  dht.begin();
+}
+
+// Constructeur de la classe Humidity
+Humidity::Humidity(String nom) {
+  name = nom;
+  hum = 0;  
+}
+
+// Constructeur par défaut de la classe Humidity
+Humidity::Humidity() {
+  name = "HumSens";
+  hum = 0;  
+}
+
+// Accesseurs de la classe Humidity
+float Humidity::getHum() {
+  hum = dht.readHumidity();
+  return hum;
+}
+
+void Humidity::setHum(float h) {
+  hum = h;
+}
+
+String Humidity::getName() {
+  return name;
+}
+
+void Humidity::setName(String nom) {
+  name = nom;
+}
+
+// Méthodes de la classe Humidity
+void Humidity::printHumidity() {
+  Serial.print("La valeur du capteur d'humidité est : ");
+  Serial.println(getHum());
+}
+
+void Humidity::initCom() {
+  Wire.begin();
+  dht.begin();
 }

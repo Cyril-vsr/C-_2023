@@ -1,9 +1,13 @@
-using namespace std;
 #include <iostream>
 #include <string>
 #include <Arduino.h>
 #include "Wire.h"
 #include "DHT.h"
+
+// Informations sur le créateur, la date de création et le projet
+// Créateur : Paul JAULHIAC
+// Date de création : 18/12/23
+// Projet : C++ Project
 
 #ifndef CAPTEUR_H
 #define CAPTEUR_H
@@ -14,7 +18,7 @@ using namespace std;
 #if defined(ARDUINO_ARCH_AVR)
     #define debug  Serial
 
-#elif defined(ARDUINO_ARCH_SAMD) ||  defined(ARDUINO_ARCH_SAM)
+#elif defined(ARDUINO_ARCH_SAMD) || defined(ARDUINO_ARCH_SAM)
     #define debug  SerialUSB
 #else
     #define debug  Serial
@@ -27,56 +31,49 @@ public :
     
     Capteur();
     ~Capteur();
-
 };
-
-
 
 class Temperature : public Capteur
 {
 private:
-    static string name;
+    static String name;
     static float temp;
 
 public :
-    Temperature(string nom);
+    Temperature(String nom);
     Temperature();
 
-// Accessors :
-float getTemp();
-void setTemp(float t);
-string getName();
-void setName(string nom);
+    // Accesseurs :
+    float getTemp();
+    void setTemp(float t);
+    String getName();
+    void setName(String nom);
 
-// Methods :
-void printTemperature();
-
-void initCom();
-
+    // Méthodes :
+    void printTemperature();
+    void initCom();
 };
 
-//Classe pour le capteur Humidité :
+// Classe pour le capteur Humidité :
 class Humidity : public Capteur
 {
 private:
-    static string name;
+    static String name;
     static float hum;
 
 public :
-    Humidity(string nom);
+    Humidity(String nom);
     Humidity();
     
-// Accessors :
-float getHum();
-void setHum(float t);
-string getName();
-void setName(string nom);
+    // Accesseurs :
+    float getHum();
+    void setHum(float t);
+    String getName();
+    void setName(String nom);
 
-// Methods :
-void printHumidity();
-
-void initCom();
-
+    // Méthodes :
+    void printHumidity();
+    void initCom();
 };
 
 #endif // CAPTEUR_H

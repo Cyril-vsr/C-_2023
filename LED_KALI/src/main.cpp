@@ -4,7 +4,7 @@
 #include <iostream>
 
 // Informations sur le créateur, la date de création et le projet
-// Créateur : Cyril VASSEUR
+// Créateur : Cyril VASSEUR et Paul JAULHIAC
 // Date de création : 18/12/23
 // Projet : C++ project 
 
